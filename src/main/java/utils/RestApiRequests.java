@@ -46,7 +46,6 @@ public class RestApiRequests extends RequestBase{
                 .then()
                 .spec(responseExpCreated.responseSpec)
                 .extract().response();
-        System.out.println("is here");
         return response;
     }
 

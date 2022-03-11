@@ -6,9 +6,13 @@ import org.testng.annotations.Test;
 import utils.Booking;
 import utils.RestApiRequests;
 
+import java.util.logging.Logger;
+
 public class CreateBookingTest {
     String id;
     String token;
+
+    private static final Logger logger  = Logger.getLogger(CreateBookingTest.class.getName());
 
     RestApiRequests req = new RestApiRequests();
     @Test(priority = 1)
@@ -16,7 +20,7 @@ public class CreateBookingTest {
     public void getBookingByIdTest() {
         String idNeeded = "1";
         Response booking = req.getBookingById(idNeeded);
-        System.out.println(booking.asString());
+        logger.info(booking.asString());
     }
 
     @Test(priority = 2)
@@ -26,9 +30,8 @@ public class CreateBookingTest {
                 300, true,
                 "2022-01-02", "2023-01-01",
                 "spa");
-        System.out.println(booking.getJsonString());
         Response addedBook = req.postBooking(booking.getJsonString());
-        System.out.println(addedBook.asString());
+        logger.info(addedBook.asString());
         id = addedBook.jsonPath().getString("bookingid");
         Assert.assertEquals(addedBook.jsonPath().getString("booking.firstname"), "Ana");
     }
@@ -51,13 +54,13 @@ public class CreateBookingTest {
                 "2022-01-02", "2023-01-01",
                 "spa");
         Response updatedBooking = req.updateBooking(booking.getJsonString(), id, token);
-        System.out.println(updatedBooking.asString());
+        logger.info(updatedBooking.asString());
     }
 
     @Test(priority = 5)
     // delete the last book I added
     public void deleteBookTest() {
         Response deletedBook = req.deleteBooking(id, token);
-        System.out.println(deletedBook.getStatusCode());
+        logger.info(String.valueOf(deletedBook.getStatusCode()));
     }
 }
